@@ -11,11 +11,11 @@
             "./typings"
         ],
         "lib": [
-            "es2017",
+            "ES2019",
             "dom",
             "dom.iterable"
         ],
-        "target": "es2017"
+        "target": "ES2019"
     },
     "include": [
         "typings/**/*",
