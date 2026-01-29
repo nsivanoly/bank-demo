@@ -26,7 +26,7 @@ const renderHttpEntry = (entry: HttpLogEntry) => {
       <div className="tracer-card-header">
         <div className="tracer-title">
           <span className="tracer-method">{method}</span>
-          <span className="tracer-url">{url}</span>
+          <code className="tracer-code" style={{ maxHeight: 30, padding: "2px 4px", fontSize: "0.9em", lineHeight: "1.2" }}>{url}</code>
         </div>
         <div className="tracer-meta">
           <span className="tracer-time">{formatTime(entry.timestamp)}</span>
@@ -72,7 +72,7 @@ const renderWsEntry = (entry: WsLogEntry) => {
       <div className="tracer-card-header">
         <div className="tracer-title">
           <span className="tracer-method">WS</span>
-          <span className="tracer-url">{entry.url || ""}</span>
+          <code className="tracer-code" style={{ maxHeight: 30, padding: "2px 4px", fontSize: "0.9em", lineHeight: "1.2" }}>{entry.url || ""}</code>
         </div>
         <div className="tracer-meta">
           <span className="tracer-time">{formatTime(entry.timestamp)}</span>
