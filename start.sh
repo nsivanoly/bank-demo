@@ -86,6 +86,15 @@ read -p "➡️ Enter choice [1-3] (default 3): " build_choice
 build_choice=${build_choice:-3}
 
 echo ""
+echo "🧹 Choose cleanup option before starting:"
+echo "  1) Clean start (stop and remove all existing containers, volumes)"
+echo "  2) Keep existing (start alongside running containers)"
+echo "  3) Exit"
+read -p "➡️ Enter choice [1-3] (default 1): " cleanup_choice
+
+cleanup_choice=${cleanup_choice:-1}
+
+echo ""
 echo "📋 ========= Summary ========="
 echo "🛡️  Services to start: ${SELECTED_SERVICES[*]}"
 case "$build_choice" in
@@ -94,11 +103,21 @@ case "$build_choice" in
   3) echo "⏭️ Build option: Skip build" ;;
   *) echo "⚠️ Build option: Invalid choice" ;;
 esac
+case "$cleanup_choice" in
+  1) echo "🧹 Cleanup: Clean start (remove existing)" ;;
+  2) echo "🔄 Cleanup: Keep existing containers" ;;
+  3) echo "👋 Exiting..."; exit 0 ;;
+  *) echo "⚠️ Cleanup: Invalid choice, defaulting to clean start" ;;
+esac
 echo "============================="
 echo ""
 
-echo "🛑 Stopping and cleaning existing containers, volumes, and orphans..."
-"${COMPOSE_CMD[@]}" down --remove-orphans -v
+if [[ "$cleanup_choice" == "1" ]] || [[ ! "$cleanup_choice" =~ ^[1-3]$ ]]; then
+  echo "🛑 Stopping and cleaning existing containers, volumes, and orphans..."
+  "${COMPOSE_CMD[@]}" down --remove-orphans -v
+else
+  echo "🔄 Keeping existing containers, will start new services alongside..."
+fi
 
 case "$build_choice" in
   1)
