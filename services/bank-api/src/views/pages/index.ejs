@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bank API Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+    .btn-primary {
+      background-color: #0b2545;
+      color: white;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #133c66;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 18px rgba(11, 37, 69, 0.4);
+    }
+    .btn-secondary {
+      background-color: #f8f9fa;
+      color: #0b2545;
+      border: 1px solid #d1d5db;
+    }
+    .btn-secondary:hover {
+      background-color: #e2e6ea;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-white via-[#f3f4f6] to-[#e5e7eb] text-gray-800 min-h-screen flex items-center justify-center px-4 py-10">
+
+  <div class="glass max-w-5xl w-full px-8 py-12 text-center">
+
+    <!-- Hero -->
+    <div class="mb-6">
+      <lottie-player
+        src="https://assets6.lottiefiles.com/packages/lf20_jcikwtux.json"
+        background="transparent"
+        speed="1"
+        style="width: 180px; height: 180px; margin: auto;"
+        loop autoplay>
+      </lottie-player>
+    </div>
+
+    <h1 class="text-4xl sm:text-5xl font-bold text-[#0b2545] tracking-tight">Welcome to <span class="text-[#c9a227]">Bank API Portal</span></h1>
+    <p class="mt-4 text-lg text-gray-600">A secure, scalable platform for building financial applications with confidence.</p>
+
+    <!-- Buttons -->
+    <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
+      <a href="/api-docs" class="btn-primary py-3 px-8 rounded-xl text-base font-semibold">
+        🔍 Explore API Docs
+      </a>
+      <a href="/swagger.json" class="btn-secondary py-3 px-8 rounded-xl text-base font-semibold">
+        🧾 Download Swagger JSON
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-12 text-xs text-gray-500">
+      <p>💡 Built with Express.js • Documented via Swagger • Styled using Tailwind CSS</p>
+      <p class="mt-1">© 2025 — Created by Siva</p>
+    </div>
+
+  </div>
+</body>
+</html>

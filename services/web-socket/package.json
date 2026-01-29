@@ -1,0 +1,21 @@
+{
+  "name": "ws-server",
+  "version": "1.0.0",
+  "description": "A unified WebSocket server for streaming, notifications, and chat rooms.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "websocket",
+    "chat",
+    "streaming",
+    "notifications",
+    "nodejs"
+  ],
+  "author": "Siva",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.15.0"
+  }
+}

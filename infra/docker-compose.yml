@@ -1,0 +1,266 @@
+services:
+  # -----------------------------
+  # WSO2 Identity Server (IS)
+  # -----------------------------
+
+  wso2is:
+    build:
+      context: ../platform/wso2-is
+      dockerfile: Dockerfile
+      args:
+        IS_VERSION: ${IS_VERSION:-7.1.0}
+    image: wso2is-local:${IS_VERSION:-7.1.0}
+    platform: ${BUILD_PLATFORM:-linux/amd64}
+    container_name: wso2is
+    hostname: ${IS_HOSTNAME:-wso2is}
+    ports:
+      - "${IS_HTTPS_PORT:-9444}:9444"  # HTTPS (custom)
+      - "${IS_HTTP_PORT:-9763}:9763"  # HTTP (custom mapping)
+    volumes:
+      - ./certs:${WSO2_IS_HOME}/repository/resources/security:ro
+      - wso2_is_data:/home/wso2carbon
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "https://${IS_HOSTNAME:-wso2is}:${IS_HTTPS_PORT:-9444}/oauth2/token/.well-known/openid-configuration"]
+      interval: 10s
+      timeout: 10s
+      retries: 60
+      start_period: 600s  # 10 min grace period before health check
+    networks:
+      - wso2net
+
+  # -----------------------------
+  # WSO2 API Manager (APIM)
+  # -----------------------------
+  wso2am:
+    build:
+      context: ../platform/wso2-am
+      dockerfile: Dockerfile
+      args:
+        APIM_VERSION: ${APIM_VERSION:-4.5.0}
+    image: wso2am-local:${APIM_VERSION:-4.5.0}
+    container_name: wso2am
+    hostname: ${APIM_HOSTNAME:-wso2am}
+    ports:
+      - "${APIM_HTTPS_PORT:-9443}:9443"  # HTTPS
+      - "${APIM_HTTP_PORT:-8280}:8280"  # HTTP passthrough
+      - "${APIM_HTTPS_PASSTHROUGH:-8243}:8243"  # HTTPS passthrough
+      - "${APIM_WSS_PORT:-8099}:8099"  # wss endpoint
+      - "${APIM_WS_PORT:-9099}:9099"  # ws endpoint
+    volumes:
+      - ./certs:${WSO2_APIM_HOME}/repository/resources/security
+      - wso2_am_data:/home/wso2carbon
+    # depends_on:
+    #   wso2is:
+    #     condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "https://${APIM_HOSTNAME:-wso2am}:${APIM_HTTPS_PORT:-9443}/services/Version"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+    networks:
+      - wso2net
+
+  # ----------------------------------------------
+  # WSO2 Micro Integrator Control Plane (ICP)
+  # ----------------------------------------------
+  wso2icp:
+    build:
+      context: ../platform/wso2-icp
+      dockerfile: Dockerfile
+      args:
+        ICP_VERSION: ${ICP_VERSION:-1.0.0}
+    image: wso2icp-local:${ICP_VERSION:-1.0.0}
+    container_name: wso2icp
+    hostname: ${ICP_HOSTNAME:-wso2icp}
+    platform: ${BUILD_PLATFORM:-linux/amd64}
+    ports:
+      - "${ICP_HTTPS_PORT:-9743}:9743"
+    volumes:
+      - ./certs:${WSO2_ICP_HOME}/repository/resources/security:ro
+    # depends_on:
+    #   wso2mi:
+    #     condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "https://${ICP_HOSTNAME:-wso2icp}:${ICP_HTTPS_PORT:-9743}/favicon.ico"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+    networks:
+      - wso2net
+
+  # -----------------------------
+  # WSO2 Micro Integrator (MI)
+  # -----------------------------
+  wso2mi:
+    build:
+      context: ../platform/wso2-mi
+      dockerfile: Dockerfile
+      args:
+        MI_VERSION: ${MI_VERSION:-4.4.0}
+    image: wso2mi-local:${MI_VERSION:-4.4.0}
+    platform: ${BUILD_PLATFORM:-linux/amd64}
+    container_name: wso2mi
+    hostname: ${MI_HOSTNAME:-wso2mi}
+    ports:
+      - "${MI_HTTPS_PORT:-8253}:8253"  # HTTPS management
+      - "${MI_HTTP_PORT:-8290}:8290"  # HTTP passthrough
+    volumes:
+      - ./certs:${WSO2_MI_HOME}/repository/resources/security:ro
+    # depends_on:
+    #   wso2icp:
+    #     condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "https://${MI_HOSTNAME:-wso2mi}:${MI_LIVENESS:-9164}/liveness"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+    networks:
+      - wso2net
+
+  # -----------------------------
+  # Custom Bank API Backend
+  # -----------------------------
+  bank-api:
+    build: ../services/bank-api
+    image: wso2-bank-api-local:${CUSTOM_APP_VERSION:-1.0.0}
+    container_name: wso2-bank-api
+    hostname: ${BANK_API_HOSTNAME:-bank-api}
+    ports:
+      - "${BANK_API_HTTP_PORT:-2001}:2001"
+      - "${BANK_API_HTTPS_PORT:-3443}:3443"
+    volumes:
+      - ./certs:/certs:ro
+    environment:
+      HOST: ${HOST_DOMAIN:-localhost}
+      PORT_HTTP: ${BANK_API_HTTP_PORT:-2001}
+      PORT_HTTPS: ${BANK_API_HTTPS_PORT:-3443}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "https://${BANK_API_HOSTNAME:-bank-api}:${BANK_API_HTTPS_PORT:-3443}/accounts"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - wso2net
+
+  # -----------------------------
+  # WebSocket API Service
+  # -----------------------------
+  web-socket:
+    build: ../services/web-socket
+    image: wso2-web-socket-api-local:${CUSTOM_APP_VERSION:-1.0.0}
+    container_name: wso2-web-socket-api
+    hostname: ${WSO2_WS_HOSTNAME:-web-socket}
+    ports:
+      - "${WS_PORT:-8081}:8081"
+      - "${WS_TLS_PORT:-8443}:8443"
+    volumes:
+      - ./certs:/certs:ro
+    environment:
+      HOST: ${HOST_DOMAIN:-localhost}
+      PORT: ${WS_PORT:-8081}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "http://${WSO2_WS_HOSTNAME:-web-socket}:${WS_PORT:-8081}/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    networks:
+      - wso2net
+
+  # -----------------------------
+  # WebSocket GraphQL Service
+  # -----------------------------
+  graphql:
+    build:
+      context: ../services/graphql
+      dockerfile: Dockerfile
+    image: wso2-graphql-api-local:${CUSTOM_APP_VERSION:-1.0.0}
+    container_name: wso2-graphql-api
+    hostname: ${GRAPHQL_HOSTNAME:-graphql}
+    ports:
+      - "${GRAPHQL_PORT:-8082}:8082"
+    environment:
+      HOST: ${HOST_DOMAIN:-localhost}
+      PORT: ${GRAPHQL_PORT:-8082}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "http://${GRAPHQL_HOSTNAME:-graphql}:${GRAPHQL_PORT:-8082}/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - wso2net
+
+  # -----------------------------
+  # Bank Frontend Web App (React)
+  # -----------------------------
+  bank-app:
+    build:
+      context: ../apps/bank-app
+    image: wso2-bank-app-local:${CUSTOM_APP_VERSION:-1.0.0}
+    container_name: wso2-bank-app
+    hostname: ${BANK_APP_HOSTNAME:-bank-app}
+    ports:
+      - "${REACT_PORT:-3000}:3000"
+    volumes:
+      - ../apps/bank-app/src:/app/src:cached
+      - bank_app_data:/app
+    environment:
+      CHOKIDAR_USEPOLLING: true
+      WATCHPACK_POLLING: true
+      FAST_REFRESH: true
+      WDS_SOCKET_PORT: ${REACT_PORT:-3000}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "https://${BANK_APP_HOSTNAME:-bank-app}:${REACT_PORT:-3000}/"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - wso2net
+
+  # -----------------------------
+  # Bank Frontend Web App (PHP)
+  # -----------------------------
+  php-app:
+    build:
+      context: ../apps/php-app
+    image: wso2-php-app-local:${CUSTOM_APP_VERSION:-1.0.0}
+    container_name: wso2-php-app
+    hostname: ${PHP_APP_HOSTNAME:-php-app}
+    restart: always
+    ports:
+      - "${PHP_HTTP_PORT:-7100}:80"
+      - "${PHP_HTTPS_PORT:-7400}:443"
+    volumes:
+      - ../apps/php-app/src:/var/www/html
+      - ../apps/php-app/log:/var/log/apache2
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "http://${PHP_APP_HOSTNAME:-php-app}:80/"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - wso2net
+
+# -----------------------------
+# Docker Network
+# -----------------------------
+networks:
+  wso2net:
+    driver: bridge
+
+# -----------------------------
+# Persistent Volumes
+# -----------------------------
+volumes:
+  wso2_is_data:
+    driver: local
+  wso2_am_data:
+    driver: local
+  bank_app_data:
+    driver: local

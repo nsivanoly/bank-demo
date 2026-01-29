@@ -1,0 +1,35 @@
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="dynamic_ep">
+   <!-- Remove REST URL postfix -->
+   <property name="REST_URL_POSTFIX" scope="axis2" action="remove"/>
+
+   <!-- Extract and normalize routingKey query param -->
+   <property name="routingKey"
+             expression="fn:normalize-space(fn:lower-case($url:routingKey))"
+             scope="default" type="STRING"/>
+
+   <!-- Log routingKey value -->
+   <log level="custom">
+      <property name="RawRoutingKey" expression="$url:routingKey"/>
+      <property name="NormalizedRoutingKey" expression="$ctx:routingKey"/>
+   </log>
+
+   <!-- Conditional routing based on routingKey -->
+   <filter regex="^a$" source="$ctx:routingKey">
+      <then>
+         <header name="To" value="https://httpbin.org/anything/A" />
+      </then>
+      <else>
+         <filter regex="^b$" source="$ctx:routingKey">
+            <then>
+               <header name="To" value="https://httpbin.org/anything/B" />
+            </then>
+            <else>
+               <header name="To" value="https://httpbin.org/anything/default" />
+            </else>
+         </filter>
+      </else>
+   </filter>
+
+   <!-- Set endpoint address from To header -->
+   <property expression="get-property('To')" name="ENDPOINT_ADDRESS" />
+</sequence>

@@ -1,0 +1,51 @@
+version: "3.6"
+services:
+    php:
+        build: .
+        restart: always
+        ports:
+            - "7100:80"
+            - "4443:443"
+        environment:
+            - APP_NAME=BankingFrontendAppPHP
+            - FRONTEND_URL=https://localhost:4443
+            - APIM_HOST=https://wso2am:9443
+            - APIM_HOSTNAME=wso2am
+            - IS_HOST=https://wso2is:9444
+            - IS_HOSTNAME=wso2is
+        volumes:
+            - ./src:/var/www/html
+            - ./log:/var/log/apache2
+            - ./container-init:/opt/container-init
+        networks:
+            - wso2-network
+
+networks:
+    wso2-network:
+        external: true
+#            - ./conf/demo.apache.conf:/etc/apache2/sites-enabled/demo.conf
+
+#    mysql:
+#        image: mysql:8.0
+#        restart: always
+#        ports:
+#            - "3306:3306"
+#        command: --default-authentication-plugin=mysql_native_password
+#        environment:
+#            - MYSQL_DATABASE=myDb
+#            - MYSQL_USER=user
+#            - MYSQL_PASSWORD=test
+#            - MYSQL_ROOT_PASSWORD=test
+#        volumes:
+#            - ./dump:/docker-entrypoint-initdb.d
+#            - ./conf:/etc/mysql/conf.d
+#            - persistent:/var/lib/mysql
+#    phpmyadmin:
+#        image: phpmyadmin
+#        restart: always
+#        ports:
+#            - 8081:80
+#        environment:
+#            - PMA_HOST=mysql
+volumes:
+    persistent:

@@ -1,0 +1,548 @@
+body {
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+h2 {
+    color: #212529;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.form-control,
+.form-select {
+    border-radius: 0.4rem;
+    box-shadow: none;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #495057;
+    box-shadow: 0 0 0 0.15rem rgba(0, 0, 0, 0.05);
+}
+
+.card,
+.account-card {
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.card-body {
+    padding: 2rem 1.5rem;
+}
+
+.summary-icon {
+    font-size: 3rem;
+    transition: transform 0.3s ease;
+    user-select: none;
+}
+
+.card:hover .summary-icon {
+    transform: scale(1.3);
+}
+
+.table {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.3rem 0.75rem rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.table-responsive table {
+    min-width: 900px;
+}
+
+.account-details strong {
+    width: 110px;
+    display: inline-block;
+    color: #495057;
+}
+
+.badge-status {
+    font-size: 0.9rem;
+    padding: 0.4em 0.75em;
+}
+
+.btn-group .btn {
+    margin-right: 0.35rem;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content {
+    border-radius: 0.75rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
+}
+
+.list-group-item {
+    border: none;
+    padding-left: 0;
+    padding-right: 0;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.list-group-item + .list-group-item {
+    border-top: 1px solid #e9ecef;
+}
+
+.welcome {
+    color: rgba(250, 129, 0, 0.939);
+}
+
+.navbar-brand svg {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.icon-hover {
+    transition: all 0.3s ease;
+}
+
+.icon-hover:hover {
+    color: #0d6efd;
+    transform: translateY(-2px);
+}
+
+.icon-hover svg {
+    transition: transform 0.3s ease;
+}
+
+.icon-hover:hover svg {
+    transform: scale(1.2);
+}
+
+
+/* 3D Buttons */
+.btn {
+  border-radius: 50px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  border: none !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Ripple Effect */
+.btn-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Modern Table */
+.table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table th {
+  font-weight: 600;
+}
+
+/* Navbar Base */
+.navbar {
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+/* Brand Styling */
+.navbar-brand {
+    padding: 0.5rem 0;
+    margin-right: 1.5rem;
+}
+
+.bank-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    margin-right: 12px;
+    transition: all 0.3s ease;
+}
+
+.bank-logo svg {
+    color: white;
+}
+
+.brand-text {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+/* Menu Items */
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem !important;
+    margin: 0 0.25rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+.menu-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    transition: all 0.3s ease;
+}
+
+.menu-item:hover .menu-icon {
+    transform: scale(1.15);
+}
+
+.menu-label {
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* User Welcome */
+.user-welcome {
+    margin: 0 1rem;
+    padding: 0.5rem 0;
+}
+
+.welcome-text {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+}
+
+.welcome-text strong {
+    color: white;
+    font-weight: 600;
+}
+
+/* Logout Button */
+.logout-btn:hover {
+    background: rgb(194 0 19) !important;
+}
+
+/* Login Button */
+.login-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-btn:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .navbar-nav {
+        padding: 1rem 0;
+    }
+    
+    .menu-item {
+        justify-content: flex-start;
+        padding: 0.75rem 1.5rem !important;
+        margin: 0.25rem 0;
+    }
+    
+    .user-welcome {
+        margin: 0.5rem 1.5rem;
+        padding: 0.5rem 0;
+    }
+}
+
+/* Quick Actions Dropdown */
+.quick-actions .dropdown-menu {
+    border: none;
+    border-radius: 8px;
+    background: rgba(33, 37, 41, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    padding: 0.5rem;
+    margin-top: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quick-actions .dropdown-item {
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.quick-actions .dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateX(5px);
+}
+
+.quick-actions .dropdown-item .dropdown-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+}
+
+.quick-actions .dropdown-divider {
+    border-color: rgba(255, 255, 255, 0.1);
+    margin: 0.25rem 0;
+}
+
+/* Dropdown arrow color */
+.navbar-dark .navbar-nav .nav-link.dropdown-toggle::after {
+    border-color: rgba(255, 255, 255, 0.75);
+    margin-left: 6px;
+}
+
+/* Hover state for dropdown toggle */
+.quick-actions .dropdown-toggle:hover::after {
+    border-color: white;
+}
+
+
+/* Footer Styles */
+.footer {
+    background: #212529 !important;
+    color: #fff;
+    position: relative;
+    z-index: 10;
+}
+
+.footer-brand {
+    transition: transform 0.3s ease;
+}
+
+.footer-brand:hover {
+    transform: translateX(5px);
+}
+
+.bank-logo {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.footer-brand:hover .bank-logo {
+    background: rgba(67, 97, 238, 0.2);
+}
+
+.footer-heading {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.footer-heading::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background: #4361ee;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.7) !important;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+    position: relative;
+}
+
+.footer-link:hover {
+    color: #fff !important;
+    transform: translateX(5px);
+}
+
+.footer-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: #4361ee;
+    transition: width 0.3s ease;
+}
+
+.footer-link:hover::after {
+    width: 100%;
+}
+
+.footer-contacts li {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.footer-contacts i {
+    color: white;
+    font-size: 1rem;
+    margin-top: 0 !important;
+}
+
+.social-links {
+    display: flex;
+    gap: 12px;
+}
+
+.social-icon {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.social-icon:hover {
+    color: white;
+    transform: translateY(-3px);
+}
+
+.footer-copyright {
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .footer-brand {
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .footer-heading {
+        margin-top: 1rem;
+    }
+    
+    .footer-links, .footer-contacts {
+        margin-bottom: 1.5rem;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+}
+
+.notification-badge {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.35rem;
+    min-width: 1rem;
+}
+
+#notificationDropdown {
+    min-width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#notificationDropdown .dropdown-item {
+    white-space: normal;
+    word-wrap: break-word;
+    padding: 0.75rem 1rem;
+}
+
+#notificationDropdown .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#notificationDropdown .dropdown-header {
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    background-color: #343a40;
+    z-index: 1;
+}
+
+#notificationDropdown .delete-notification {
+    padding: 0.25rem;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+#notificationDropdown .dropdown-item:hover .delete-notification {
+    opacity: 1;
+}
+
+.toast {
+    margin-bottom: 0.5rem;
+}
+
+#toastContainer {
+    z-index: 1100;
+}
+
+.timestamp {
+    color: white !important;
+    font-style: italic;
+    font-size: 12px;
+    padding-bottom: 5px;
+}
+
+.delete-notification {
+        width: 45px !important;
+}
+
+.time-stamp {
+    color: white !important;
+    font-size: 11px;
+    padding-bottom: 5px;
+}
+
+#chat-box .form-control {
+    border-radius: 30px !important;
+    margin-right: 10px !important;
+}

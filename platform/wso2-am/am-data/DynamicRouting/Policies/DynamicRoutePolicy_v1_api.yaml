@@ -1,0 +1,17 @@
+type: operation_policy_specification
+version: v4.5.0
+data:
+  category: Mediation
+  name: DynamicRoutePolicy
+  version: v1
+  displayName: Dynamic Route Policy
+  description: ""
+  applicableFlows:
+   - request
+   - response
+   - fault
+  supportedGateways:
+   - Synapse
+  supportedApiTypes:
+   - HTTP
+  policyAttributes: []

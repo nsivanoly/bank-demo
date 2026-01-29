@@ -1,0 +1,49 @@
+{
+  "name": "bank-api",
+  "version": "1.0.0",
+  "description": "A RESTful API for managing bank accounts with Express, Swagger, and LowDB",
+  "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=20.15.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build": "npm run clean && npm run compile",
+    "compile": "babel src --out-dir dist",
+    "clean": "rm -rf dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "bank",
+    "api",
+    "rest",
+    "swagger",
+    "lowdb"
+  ],
+  "author": "Your Name <youremail@example.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.0",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "https": "^1.0.0",
+    "lowdb": "^5.1.0",
+    "morgan": "^1.10.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "markdown-notes-tree": "^1.12.0",
+    "nodemon": "^3.1.10"
+  }
+}

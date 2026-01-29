@@ -1,0 +1,53 @@
+# Enable rewrite engine
+RewriteEngine On
+RewriteBase /
+
+# Optional: Force HTTPS (uncomment if you want HTTPS only)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Deny direct access to includes folder
+RewriteRule ^includes/ - [F,L]
+
+# If the requested filename exists as a file or directory, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Rewrite URLs to map clean routes to PHP scripts inside pages or root
+# Examples:
+# /accounts           -> pages/accounts.php
+# /account_details    -> pages/account_details.php
+# /create_account     -> pages/create_account.php
+# /transfer           -> pages/transfer.php
+# /deposit            -> pages/deposit.php
+# /withdraw           -> pages/withdraw.php
+# /summary            -> pages/summary.php
+# /login              -> login.php
+# /logout             -> logout.php
+# /callback           -> callback.php
+# /chat               -> chat.php
+# /                   -> index.php
+
+RewriteRule ^accounts/?$ pages/accounts.php [L,QSA]
+RewriteRule ^account-details/([^/]*)$ pages/account_details.php?accountNumber=$1 [L]
+RewriteRule ^edit-account/([^/]*)$ pages/account_edit.php?accountNumber=$1 [L]
+RewriteRule ^create-account/?$ pages/create_account.php [L,QSA]
+RewriteRule ^transfer/?$ pages/transfer.php [L,QSA]
+RewriteRule ^transfer/([^/]*)$ pages/transfer.php?accountNumber=$1 [L]
+RewriteRule ^deposit/?$ pages/deposit.php [L,QSA]
+RewriteRule ^deposit/([^/]*)$ pages/deposit.php?accountNumber=$1 [L]
+RewriteRule ^withdraw/?$ pages/withdraw.php [L,QSA]
+RewriteRule ^withdraw/([^/]*)$ pages/withdraw.php?accountNumber=$1 [L]
+RewriteRule ^summary/?$ pages/summary.php [L,QSA]
+RewriteRule ^chat/?$ pages/chat.php [L,QSA]
+
+RewriteRule ^login/?$ login.php [L,QSA]
+RewriteRule ^logout/?$ logout.php [L,QSA]
+RewriteRule ^callback/?$ callback.php [L,QSA]
+
+# Default route: if no match, route to index.php (dashboard)
+RewriteRule ^$ index.php [L,QSA]
+
+# Catch-all fallback: you can remove this if you want 404 instead of index.php for unknown URLs
+RewriteRule . index.php [L,QSA]

@@ -1,0 +1,37 @@
+asyncapi: 2.0.0
+info:
+  title: Chat
+  version: 1.0.0
+servers:
+  production:
+    url: ws://localhost:8081
+    protocol: ws
+  sandbox:
+    url: ws://localhost:8081
+    protocol: ws
+channels:
+  /support:
+    parameters: {}
+    publish:
+      x-uri-mapping: /support
+    subscribe:
+      x-uri-mapping: /support
+  /rooms/{roomID}:
+    parameters:
+      roomID:
+        description: ""
+        schema:
+          type: string
+    publish:
+      x-uri-mapping: "/rooms?room={uri.var.roomID}"
+    subscribe:
+      x-uri-mapping: "/rooms?room={uri.var.roomID}"
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://localhost:9999
+          scopes: {}
+          x-scopes-bindings: {}

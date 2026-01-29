@@ -1,0 +1,105 @@
+# ==============================
+# OS and Editor files
+# ==============================
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Editor folders/files
+.vscode/
+.env
+*config.json.backup.*
+*config.php.backup.*
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# JetBrains IDE
+*.iml
+*.iws
+out/
+
+# Swap/temp files
+*.swp
+*.swo
+*.lock
+*.bak
+*.tmp
+
+# ==============================
+# Shell Scripts
+# ==============================
+# Exclude shell history, but keep start.sh and stop.sh tracked
+*.sh~
+
+# ==============================
+# Docker and Compose
+# ==============================
+docker-compose.override.yml
+docker-compose.override.yaml
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# ==============================
+# WSO2 Servers
+# ==============================
+wso2-is/tmp/
+wso2-is/logs/
+wso2-is/workspace/
+
+wso2-am/tmp/
+wso2-am/logs/
+wso2-am/workspace/
+
+wso2-mi/tmp/
+wso2-mi/logs/
+wso2-mi/workspace/
+
+wso2-icp/tmp/
+wso2-icp/logs/
+wso2-icp/workspace/
+
+wso2-is/repository/deployment/server/synapse-configs/
+wso2-am/repository/deployment/server/synapse-configs/
+wso2-mi/repository/deployment/server/synapse-configs/
+wso2-icp/repository/deployment/server/synapse-configs/
+
+# ==============================
+# Node.js / Express (services)
+# ==============================
+services/bank-api/node_modules/
+services/bank-api/npm-debug.log*
+services/bank-api/yarn-debug.log*
+services/bank-api/yarn-error.log*
+services/bank-api/pnpm-debug.log*
+services/bank-api/package-lock.json
+
+services/web-socket/node_modules/
+services/web-socket/npm-debug.log*
+services/web-socket/yarn-debug.log*
+services/web-socket/yarn-error.log*
+services/web-socket/pnpm-debug.log*
+services/web-socket/package-lock.json
+
+# ==============================
+# React Frontend (bank-app)
+# ==============================
+apps/bank-app/node_modules/
+apps/bank-app/build/
+apps/bank-app/dist/
+apps/bank-app/.cache/
+apps/bank-app/.eslintcache
+apps/bank-app/package-lock.json
+
+# ==============================
+# Logs & Miscellaneous
+# ==============================
+*.log
+*.pid
+

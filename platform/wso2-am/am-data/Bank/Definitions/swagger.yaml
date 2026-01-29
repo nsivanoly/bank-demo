@@ -1,0 +1,321 @@
+components:
+  schemas:
+    BankAccount:
+      example:
+        accountHolder: John Doe
+        accountNumber: "0123456789"
+        accountType: Savings
+        balance: 15230.75
+        branch: New York Main
+        createdDate: "2020-05-12"
+        currency: USD
+        ifscCode: NYMB0000123
+        status: Active
+      properties:
+        accountHolder:
+          description: Name of the account holder
+          type: string
+        accountNumber:
+          description: The bank account number
+          type: string
+        accountType:
+          description: Type of the account (e.g., Savings, Checking)
+          type: string
+        balance:
+          description: Current account balance
+          type: number
+        branch:
+          description: Branch name
+          type: string
+        createdDate:
+          description: Date when the account was created
+          format: date
+          type: string
+        currency:
+          description: Currency type (e.g., USD, INR)
+          type: string
+        ifscCode:
+          description: IFSC or routing code
+          type: string
+        status:
+          description: Account status (Active/Inactive/Frozen)
+          type: string
+      required:
+      - accountNumber
+      - accountHolder
+      - balance
+      type: object
+info:
+  contact:
+    email: support@wso2.com
+    name: API Support
+    url: http://www.wso2.com/support
+  description: A simple Express Bank API
+  termsOfService: http://wso2.com/terms/
+  title: Bank
+  version: 1.0.0
+openapi: 3.0.0
+paths:
+  /accounts:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/BankAccount'
+                type: array
+          description: List of all accounts
+      summary: Returns all bank accounts
+      tags:
+      - BankAccounts
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: New account created
+      summary: Create a new bank account
+      tags:
+      - BankAccounts
+  /accounts/{accountNumber}:
+    delete:
+      parameters:
+      - description: Bank account number
+        in: path
+        name: accountNumber
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Account deleted
+        "404":
+          description: Account not found
+      summary: Delete a bank account
+      tags:
+      - BankAccounts
+    get:
+      parameters:
+      - description: Bank account number
+        in: path
+        name: accountNumber
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: Bank account data
+        "404":
+          description: Account not found
+      summary: Get a specific bank account by account number
+      tags:
+      - BankAccounts
+    put:
+      parameters:
+      - description: Bank account number to update
+        in: path
+        name: accountNumber
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: Account updated successfully
+        "404":
+          description: Account not found
+      summary: Update a bank account
+      tags:
+      - BankAccounts
+  /accounts/{accountNumber}/deposit:
+    post:
+      parameters:
+      - in: path
+        name: accountNumber
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                amount:
+                  type: number
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Deposit successful
+        "400":
+          description: Invalid input
+      summary: Deposit funds into an account
+      tags:
+      - BankAccounts
+  /accounts/{accountNumber}/withdraw:
+    post:
+      parameters:
+      - in: path
+        name: accountNumber
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                amount:
+                  minimum: 0.01
+                  type: number
+              required:
+              - amount
+              type: object
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: Withdrawal successful
+        "400":
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                type: object
+          description: Invalid input or insufficient funds
+        "404":
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                type: object
+          description: Account not found
+      summary: Withdraw funds from an account
+      tags:
+      - BankAccounts
+  /accounts/recent:
+    get:
+      parameters:
+      - description: Number of recent days to filter
+        in: query
+        name: days
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: List of recent accounts
+      summary: Get recently created accounts
+      tags:
+      - BankAccounts
+  /accounts/search:
+    get:
+      parameters:
+      - in: query
+        name: accountType
+        schema:
+          type: string
+      - in: query
+        name: branch
+        schema:
+          type: string
+      responses:
+        "200":
+          description: List of matching accounts
+      summary: Search/filter bank accounts by query parameters
+      tags:
+      - BankAccounts
+  /accounts/summary:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  byType:
+                    Checking: 2
+                    Savings: 3
+                  totalAccounts: 5
+                  totalBalanceByCurrency:
+                    INR: 750000
+                    USD: 10300.5
+                properties:
+                  byType:
+                    additionalProperties:
+                      type: integer
+                    description: Number of accounts grouped by account type
+                    type: object
+                  totalAccounts:
+                    description: Total number of bank accounts
+                    type: integer
+                  totalBalanceByCurrency:
+                    additionalProperties:
+                      type: number
+                    description: Total balance grouped by currency
+                    type: object
+                type: object
+          description: Summary of account data
+      summary: Get account summary statistics
+      tags:
+      - BankAccounts
+  /accounts/transfer:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                amount:
+                  type: number
+                fromAccountNumber:
+                  type: string
+                toAccountNumber:
+                  type: string
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Transfer completed
+        "400":
+          description: Insufficient funds or invalid accounts or currency mismatch
+      summary: Transfer funds between accounts
+      tags:
+      - BankAccounts
+servers:
+- description: Local HTTP
+  url: http://localhost:2001
+- description: Production HTTPS
+  url: https://localhost:3443
+tags:
+- description: Bank account management
+  name: BankAccounts

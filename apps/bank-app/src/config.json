@@ -1,0 +1,54 @@
+{
+  "WSO2_APIM_KM": {
+    "TYPE" : "KM",
+    "clientID": "qnA6HeE_U9NcD0ahdSbL_hAfrBEa",
+    "baseUrl": "https://localhost:9443",
+    "signInRedirectURL": "https://localhost:3000",
+    "signOutRedirectURL": "https://localhost:3000",
+    "scope": ["openid email groups profile roles"],
+    "USE_AUTH": true,
+    "API_BASE_URL": "https://localhost:8243/bankapi/1.0.0",
+    "WEBSOCKET_NOTIFICATION_URL": "wss://localhost:8099/notifications/1.0.0/notifications",
+    "WEBSOCKET_SUPPORT_URL": "wss://localhost:8099/chat/1.0.0/support",
+    "WEBSOCKET_ROOMS_URL": "wss://localhost:8099/chat/1.0.0/rooms"
+  },
+  "WSO2_IS_KM": {
+    "TYPE" : "KM",
+    "clientID": "FPdSoyTSmuKop1Cxsi3u87AkEWUa",
+    "baseUrl": "https://localhost:9444",
+    "signInRedirectURL": "https://localhost:3000",
+    "signOutRedirectURL": "https://localhost:3000",
+    "scope": ["openid email groups profile roles"],
+    "USE_AUTH": true,
+    "API_BASE_URL": "https://localhost:8243/bankapi/1.0.0",
+    "WEBSOCKET_NOTIFICATION_URL": "wss://localhost:8099/notifications/1.0.0/notifications",
+    "WEBSOCKET_SUPPORT_URL": "wss://localhost:8099/chat/1.0.0/support",
+    "WEBSOCKET_ROOMS_URL": "wss://localhost:8099/chat/1.0.0/rooms"
+  },
+  "WSO2_IS": {
+    "TYPE" : "AUTH",
+    "clientID": "FPdSoyTSmuKop1Cxsi3u87AkEWUa",
+    "baseUrl": "https://localhost:9444",
+    "signInRedirectURL": "https://localhost:3000",
+    "signOutRedirectURL": "https://localhost:3000",
+    "scope": ["openid email groups profile roles"],
+    "USE_AUTH": true,
+    "API_BASE_URL": "https://localhost:3443",
+    "WEBSOCKET_NOTIFICATION_URL": "wss://localhost:8443/notifications",
+    "WEBSOCKET_SUPPORT_URL": "wss://localhost:8443/support",
+    "WEBSOCKET_ROOMS_URL": "wss://localhost:8443/rooms"
+  },
+  "NO_AUTH": {
+    "TYPE" : "NO_AUTH",
+    "clientID": "NO_AUTH",
+    "baseUrl": "NO_AUTH",
+    "signInRedirectURL": "https://localhost:3000",
+    "signOutRedirectURL": "https://localhost:3000",
+    "scope": ["openid email groups profile roles"],
+    "USE_AUTH": false,
+    "API_BASE_URL": "https://localhost:3443",
+    "WEBSOCKET_NOTIFICATION_URL": "wss://localhost:8443/notifications",
+    "WEBSOCKET_SUPPORT_URL": "wss://localhost:8443/support",
+    "WEBSOCKET_ROOMS_URL": "wss://localhost:8443/rooms"
+  }
+}
