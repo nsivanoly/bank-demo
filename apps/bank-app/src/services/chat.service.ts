@@ -1,4 +1,5 @@
 import { AppConfig } from "../config";
+import { trafficTracer } from "./traffic-tracer";
 
 const BANKING_CHANNELS = {
   SUPPORT: "🛟 General Support",
@@ -23,6 +24,7 @@ export class ChatService {
   private ws: WebSocket | null = null;
   private currentTab: ChatTab = "support";
   private currentChannel: Exclude<BankingChannel, "SUPPORT"> = "PAYMENTS";
+  private currentUrl: string | null = null;
 
   constructor(
     private readonly username: string,
@@ -77,17 +79,27 @@ export class ChatService {
       url += `&access_token=${localStorage.getItem("access_token")}`;
     }
 
+    this.currentUrl = url;
     this.ws = new WebSocket(url);
     this.onStatusChange("Connecting...");
 
     this.ws.onopen = () => {
       this.onStatusChange("Connected");
+      trafficTracer.logWs({
+        event: "open",
+        url: this.currentUrl || undefined
+      });
       if (tab === "support") {
         this.sendSystemMessage(`${this.username} joined Support`, 'support');
       }
     };
 
     this.ws.onmessage = async (event) => {
+      trafficTracer.logWs({
+        event: "message",
+        url: this.currentUrl || undefined,
+        payload: event.data
+      });
       const message = await this.processMessageEvent(event);
       if (message) {
         this.onMessage(message);
@@ -96,11 +108,20 @@ export class ChatService {
 
     this.ws.onclose = () => {
       this.onStatusChange("Disconnected");
+      trafficTracer.logWs({
+        event: "close",
+        url: this.currentUrl || undefined
+      });
     };
 
     this.ws.onerror = (error) => {
       console.error("WebSocket error:", error);
       this.onStatusChange("Connection error");
+      trafficTracer.logWs({
+        event: "error",
+        url: this.currentUrl || undefined,
+        details: "WebSocket error"
+      });
     };
 
     return this;
@@ -115,6 +136,7 @@ export class ChatService {
         this.ws.close();
       }
       this.ws = null;
+      this.currentUrl = null;
     }
     return this;
   }
@@ -136,6 +158,11 @@ export class ChatService {
     };
 
     this.ws.send(JSON.stringify(newMessage));
+    trafficTracer.logWs({
+      event: "send",
+      url: this.currentUrl || undefined,
+      payload: newMessage
+    });
     return newMessage;
   }
 
@@ -152,6 +179,11 @@ export class ChatService {
     };
 
     this.ws.send(JSON.stringify(systemMessage));
+    trafficTracer.logWs({
+      event: "send",
+      url: this.currentUrl || undefined,
+      payload: systemMessage
+    });
     return systemMessage;
   }
 

@@ -7,6 +7,7 @@ import { AppConfig } from "./config";
 import { ErrorBoundary } from "./error-boundary";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { NotificationProvider } from "./components/NotificationContext";
+import TrafficTracerPanel from "./components/TrafficTracerPanel";
 
 import {
     HomePage,
@@ -62,6 +63,7 @@ const App: FunctionComponent = () => (
     <AuthProvider config={authConfig}>
         <NotificationProvider>
             <AppRoutes />
+            <TrafficTracerPanel />
         </NotificationProvider>
     </AuthProvider>
 );

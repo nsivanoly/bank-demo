@@ -1,4 +1,5 @@
 import { AppConfig } from "../config";
+import { trafficTracer } from "../services/traffic-tracer";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
@@ -29,11 +30,24 @@ export async function apiRequest(
     if (token) headers["Authorization"] = `Bearer ${token}`;
   }
 
+  const sanitizedHeaders: Record<string, string> = { ...headers };
+  if (sanitizedHeaders.Authorization) {
+    const token = sanitizedHeaders.Authorization.replace(/^Bearer\s+/i, "");
+    sanitizedHeaders.Authorization = `Bearer ${token.slice(0, 12)}...`;
+  }
+
   const options: RequestInit = {
     method,
     headers,
     ...(data && method !== "GET" ? { body: JSON.stringify(data) } : {}),
   };
+
+  const traceId = trafficTracer.startHttp({
+    method,
+    url,
+    requestHeaders: sanitizedHeaders,
+    requestBody: data && method !== "GET" ? data : undefined,
+  });
 
   try {
     const response = await fetch(url, options);
@@ -42,8 +56,19 @@ export async function apiRequest(
       ? await response.json()
       : await response.text();
 
+    trafficTracer.completeHttp(traceId, {
+      responseStatus: response.status,
+      responseStatusText: response.statusText,
+      responseHeaders: Object.fromEntries(response.headers.entries()),
+      responseBody: responseData,
+    });
+
     return { status: response.status, data: responseData };
   } catch (error: unknown) {
+    trafficTracer.failHttp(
+      traceId,
+      error instanceof Error ? error.message : "Network error"
+    );
     return {
       status: 0,
       data: { error: error instanceof Error ? error.message : "Network error" },
