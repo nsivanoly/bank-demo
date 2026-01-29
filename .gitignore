@@ -12,7 +12,9 @@ desktop.ini
 .vscode/
 .env
 *config.json.backup.*
+apps/bank-app/src/config.json
 *config.php.backup.*
+apps/php-app/src/includes/config.php
 .idea/
 *.sublime-project
 *.sublime-workspace

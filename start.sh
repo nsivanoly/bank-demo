@@ -5,8 +5,17 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COMPOSE_FILE="$SCRIPT_DIR/infra/docker-compose.yml"
+
 ENV_FILE="$SCRIPT_DIR/.env"
 ENV_SAMPLE="$SCRIPT_DIR/.env.sample"
+REACT_ENV_FILE="$SCRIPT_DIR/apps/bank-app/.env"
+REACT_ENV_SAMPLE="$SCRIPT_DIR/apps/bank-app/.env.sample"
+
+REACT_CONFIG_FILE="$SCRIPT_DIR/apps/bank-app/src/config.json"
+REACT_CONFIG_SAMPLE="$SCRIPT_DIR/apps/bank-app/src/config.json.sample"
+PHP_CONFIG_FILE="$SCRIPT_DIR/apps/php-app/src/includes/config.php"
+PHP_CONFIG_SAMPLE="$SCRIPT_DIR/apps/php-app/src/includes/config.php.sample"
+
 
 # ===============================
 # Check and create .env file
@@ -29,6 +38,66 @@ if [ ! -f "$ENV_FILE" ]; then
   fi
 else
   echo "✅ .env file found"
+fi
+
+if [ ! -f "$REACT_ENV_FILE" ]; then
+  echo "⚠️  React .env file not found!"
+  
+  if [ -f "$REACT_ENV_SAMPLE" ]; then
+    echo "📋 Creating React .env from .env.sample..."
+    cp "$REACT_ENV_SAMPLE" "$REACT_ENV_FILE"
+    echo "✅ React .env file created successfully!"
+    echo ""
+    echo "💡 TIP: You can customize the configuration in React .env file"
+    echo "   Default values are ready to use for development."
+    echo ""
+  else
+    echo "❌ ERROR: React .env.sample file not found!"
+    echo "   Please ensure React .env.sample exists in the project root."
+    exit 1
+  fi
+else
+  echo "✅ React .env file found"
+fi
+
+if [ ! -f "$REACT_CONFIG_FILE" ]; then
+  echo "⚠️  React config.json file not found!"
+  
+  if [ -f "$REACT_CONFIG_SAMPLE" ]; then
+    echo "📋 Creating React config.json from config.json.sample..."
+    cp "$REACT_CONFIG_SAMPLE" "$REACT_CONFIG_FILE"
+    echo "✅ React config.json file created successfully!"
+    echo ""
+    echo "💡 TIP: You can customize the configuration in config.json file"
+    echo "   Default values are ready to use for development."
+    echo ""
+  else
+    echo "❌ ERROR: React config.json.sample file not found!"
+    echo "   Please ensure config.json.sample exists in the project root."
+    exit 1
+  fi
+else
+  echo "✅ React config.json file found"
+fi
+
+if [ ! -f "$PHP_CONFIG_FILE" ]; then
+  echo "⚠️  PHP config.php file not found!"
+  
+  if [ -f "$PHP_CONFIG_SAMPLE" ]; then
+    echo "📋 Creating PHP config.php from config.php.sample..."
+    cp "$PHP_CONFIG_SAMPLE" "$PHP_CONFIG_FILE"
+    echo "✅ PHP config.php file created successfully!"
+    echo ""
+    echo "💡 TIP: You can customize the configuration in config.php file"
+    echo "   Default values are ready to use for development."
+    echo ""
+  else
+    echo "❌ ERROR: PHP config.php.sample file not found!"
+    echo "   Please ensure config.php.sample exists in the project root."
+    exit 1
+  fi
+else
+  echo "✅ PHP config.php file found"
 fi
 
 COMPOSE_CMD=(docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE")
