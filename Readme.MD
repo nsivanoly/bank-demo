@@ -299,10 +299,37 @@ See [CONFIGURATION.md](docs/CONFIGURATION.md) for complete reference.
 
 ---
 
-## 👥 Users
+## 👥 Demo Users
 
-### Admin Accounts
-- **admin** / admin (all WSO2 services)
+The stack includes 10 pre-configured demo users with different roles and group memberships. Use these credentials to test authentication flows and access different features.
+
+### Admin Account
+| Username | Password | Services |
+|----------|----------|----------|
+| **admin** | **admin** | All WSO2 services (IS, APIM, MI, ICP) |
+
+### Demo Users
+
+| First Name | Last Name | Username | Password | Groups | Roles | Email |
+|-----------|----------|----------|----------|--------|-------|-------|
+| Ahmed | Khalid | `ahmed.khalid` | `aBcd!23#` | Employees | api-admin | ahmed.khalid@demo.me |
+| Fatima | Zahra | `fatima.zahra` | `Xyz@456!` | Employees | api-admin | fatima.zahra@demo.me |
+| Omar | Haddad | `omar.haddad` | `Pass@789#` | Employees | api-dev | omar.haddad@demo.me |
+| Laila | Hassan | `laila.hassan` | `Pwd@135!` | Employees | api-ops | laila.hassan@demo.me |
+| Karim | Nasser | `karim.nasser` | `Safe@246#` | Employees, Sandbox | api-dev | karim.nasser@demo.me |
+| Sara | Alhassan | `sara.alhassan` | `Code@864!` | Employees | api-dev | sara.alhassan@demo.me |
+| Ziad | Farouk | `ziad.farouk` | `Ops@975#` | Partners, Sandbox | api-ops | ziad.farouk@demo.me |
+| Rania | Samir | `rania.samir` | `Help@531!` | Partners, Auditors | support-analyst | rania.samir@demo.me |
+| Yusuf | Mansour | `yusuf.mansour` | `View@864#` | Customers | read-only | yusuf.mansour@demo.me |
+| Noura | Qasim | `noura.qasim` | `Read@753!` | Customers, Auditors | read-only | noura.qasim@demo.me |
+
+**Usage Examples:**
+
+```bash
+# Login to React app with customer user
+Username: yusuf.mansour
+Password: View@864#
+```
 
 ---
 
