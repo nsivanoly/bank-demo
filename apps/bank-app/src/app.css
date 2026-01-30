@@ -1056,13 +1056,13 @@ h2 {
     background: #0b1120;
     color: #f8fafc;
     padding: 8px;
-    border-radius: 8px;
+    border-radius: 3px;
     font-size: 11px;
     max-height: 160px;
     overflow: auto;
     word-break: break-all;
     white-space: pre-wrap;
-    border: 1px solid goldenrod;
+    border: 1px solid #4b4944;
 }
 
 .tracer-code-error {
