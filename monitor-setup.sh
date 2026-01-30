@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Container Status Monitor Script
-# Monitors the status of all containers in the demo setup
+# Monitors the status of all the containers in the demo setup
 
 set -e
 
