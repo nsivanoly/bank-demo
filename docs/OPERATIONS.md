@@ -4,6 +4,108 @@
 
 This guide covers day-to-day operations including monitoring, troubleshooting, maintenance, and backup procedures.
 
+## Management Scripts
+
+The project includes three main scripts for managing the container environment:
+
+### start.sh - Start Services
+
+Interactive script to start selected services with build options.
+
+**Usage:**
+```bash
+./start.sh
+```
+
+**Features:**
+- Interactive service selection (default, all, or custom)
+- Automatic configuration file creation from samples
+- Build options: with cache, without cache, or skip build
+- Clean start option to remove existing containers
+- Status display after startup
+
+**Service Selection:**
+- `d` - Default services (wso2am, wso2icp, wso2mi, bank-api, bank-app)
+- `a` - All services
+- Numbers (e.g., `1 3 5`) - Custom selection
+
+**Build Options:**
+- `1` - Build with cache (use for code changes)
+- `2` - Build without cache (use for dependency changes)
+- `3` - Skip build (fastest, use existing images)
+
+### stop.sh - Stop Services
+
+Interactive script to stop and optionally clean up services.
+
+**Usage:**
+```bash
+./stop.sh
+```
+
+**Features:**
+- Service selection (all or specific services)
+- Multiple cleanup levels
+- Current status display before stopping
+- Confirmation prompts for destructive operations
+
+**Cleanup Levels:**
+1. **Graceful stop only** - Stops containers, preserves everything
+2. **Stop and remove volumes** - Stops containers and removes data volumes
+3. **Full cleanup** - Removes containers, images, volumes, and networks
+4. **Exit** - Cancel operation
+
+**Examples:**
+```bash
+# Stop all services gracefully
+./stop.sh
+# Select: a (all services)
+# Select: 1 (graceful stop)
+
+# Stop specific services with volume cleanup
+./stop.sh
+# Select: 2 5 8 (wso2am, web-socket, bank-app)
+# Select: 2 (stop and remove volumes)
+```
+
+### monitor-setup.sh - Monitor Container Status
+
+Comprehensive monitoring script for container health and resource usage.
+
+**Usage:**
+```bash
+# Single status check
+./monitor-setup.sh
+
+# Continuous monitoring (refreshes every 5 seconds)
+./monitor-setup.sh --watch
+
+# Show recent error logs
+./monitor-setup.sh --logs
+
+# Show help
+./monitor-setup.sh --help
+```
+
+**Features:**
+- ✅ Container status overview with color-coded output
+- ✅ Running/stopped container counts
+- ✅ Health check status monitoring
+- ✅ Real-time resource usage (CPU, memory, network, disk I/O)
+- ✅ Recent error log scanning
+- ✅ Watch mode for continuous monitoring
+- ✅ Automatic Docker daemon check
+
+**Output Sections:**
+1. **Container Status** - Lists all containers with their state
+2. **Health Status** - Shows health check results
+3. **Resource Usage** - Displays CPU, memory, and I/O statistics
+
+**Color Coding:**
+- 🟢 Green - Running/Healthy
+- 🔴 Red - Stopped/Unhealthy/Errors
+- 🟡 Yellow - Starting/Warnings
+
 ## Health Monitoring
 
 ### Service Health Checks

@@ -36,24 +36,34 @@ WSO2 DevStack is a fully containerized development and demonstration environment
 
 ## Key Features
 
-### 1. One-Command Deployment
-Interactive `start.sh` script with service selection and build options.
+### 1. Comprehensive Management Scripts
+- **start.sh**: Interactive service startup with build options and configuration management
+- **stop.sh**: Flexible shutdown with multiple cleanup levels
+- **monitor-setup.sh**: Real-time container monitoring with health checks and resource usage
+- **docker-clean-up.sh**: Deep cleanup utility for complete environment reset
 
-### 2. Environment Configuration
+### 2. One-Command Deployment
+Interactive `start.sh` script with:
+- Service selection (default, all, or custom)
+- Build options (with cache, without cache, skip)
+- Automatic configuration file creation
+- Clean start capability
+
+### 3. Environment Configuration
 Centralized `.env` file for all configuration with automatic creation from `.env.sample`.
 
-### 3. Automated Setup Scripts
+### 4. Automated Setup Scripts
 - **API Manager**: Automatic API deployment, gateway configuration, key manager registration
 - **Identity Server**: Automatic user, group, and role creation via SCIM2 API
 - **Applications**: Automatic OAuth2 client registration
 
-### 4. Health Checks
+### 5. Health Checks
 All services include health checks with appropriate retry and timeout configurations.
 
-### 5. Persistent Data
+### 6. Persistent Data
 Named volumes for WSO2 Identity Server and API Manager data persistence.
 
-### 6. TLS Support
+### 7. TLS Support
 SSL certificates mounted from `infra/certs/` for secure communication.
 
 ## Use Cases
@@ -86,7 +96,12 @@ The project follows a modular monorepo structure:
 - **`services/`** - Backend microservices with independent lifecycles
 - **`platform/`** - WSO2 product customizations and initialization scripts
 - **`infra/`** - Infrastructure as code (Docker Compose) and shared resources
-- **Root scripts** - User-facing management scripts (start, stop, cleanup)
+- **`docs/`** - Comprehensive documentation (setup, operations, architecture)
+- **Root scripts** - User-facing management scripts:
+  - `start.sh` - Interactive service startup
+  - `stop.sh` - Flexible service shutdown
+  - `monitor-setup.sh` - Container monitoring and health checks
+  - `docker-clean-up.sh` - Environment cleanup
 
 ## Design Principles
 

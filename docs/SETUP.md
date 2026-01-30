@@ -83,7 +83,7 @@ docker ps
 ### 3. Make Scripts Executable
 
 ```bash
-chmod +x start.sh stop.sh docker-clean-up.sh
+chmod +x start.sh stop.sh docker-clean-up.sh monitor-setup.sh
 ```
 
 ### 4. Review Configuration (Optional)
@@ -108,9 +108,20 @@ vi .env
 
 ### 5. Start the Stack
 
+The `start.sh` script provides an interactive way to start services with automatic configuration setup.
+
 ```bash
 ./start.sh
 ```
+
+**Features:**
+- ✅ Automatic `.env` file creation from `.env.sample`
+- ✅ Automatic React app `.env` and `config.json` creation
+- ✅ Automatic PHP app `config.php` creation
+- ✅ Interactive service selection
+- ✅ Build options (with cache, without cache, or skip)
+- ✅ Clean start option to remove existing containers
+- ✅ Status display after startup
 
 **Interactive prompts:**
 
