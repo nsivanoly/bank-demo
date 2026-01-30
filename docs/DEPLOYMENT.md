@@ -308,7 +308,7 @@ volumes:
 
 ### Variable Sources
 
-1. **`.env` File**: Primary source
+1. **`.env` File**: Primary source for all configuration
 2. **Docker Compose File**: Default values (`${VAR:-default}`)
 3. **Environment Section**: Service-specific env vars
 
@@ -325,6 +325,68 @@ Docker Compose performs variable substitution:
 - `${VAR}`: Required variable (fails if not set)
 - `${VAR:-default}`: Optional with default
 - `${VAR:?error}`: Required with error message
+
+### Version Configuration
+
+WSO2 component versions are controlled via environment variables in `.env`:
+
+```env
+# WSO2 Product Versions
+APIM_VERSION=4.6.0
+MI_VERSION=4.5.0
+IS_VERSION=7.2.0
+ICP_VERSION=1.2.0
+```
+
+**Version Selection:**
+- Versions correspond to official WSO2 Docker image tags
+- Must match available tags on Docker Hub
+- Check compatibility matrix before upgrading
+
+**Common Version Variables:**
+```env
+# WSO2 Products
+APIM_VERSION=4.6.0              # API Manager version
+MI_VERSION=4.5.0                # Micro Integrator version
+IS_VERSION=7.2.0                # Identity Server version
+ICP_VERSION=1.2.0               # Integration Control Plane version
+
+# Additional Components (if needed)
+MYSQL_CONNECTOR_VERSION=8.0.33  # MySQL JDBC driver (for MI)
+NODE_VERSION=18                  # Node.js for backend services
+PHP_VERSION=8.2                  # PHP version for php-app
+```
+
+**Usage in Dockerfiles:**
+```dockerfile
+# Example: WSO2 API Manager Dockerfile
+ARG APIM_VERSION=4.6.0
+FROM wso2/wso2am:${APIM_VERSION}
+```
+
+**Build Args in Docker Compose:**
+```yaml
+services:
+  wso2am:
+    build:
+      context: ../platform/wso2-am
+      args:
+        APIM_VERSION: ${APIM_VERSION:-4.6.0}
+```
+
+### Component Compatibility Matrix
+
+| APIM | MI | IS | ICP | Java | Notes |
+|------|----|----|-----|------|-------|
+| 4.6.0 | 4.5.0 | 7.2.0 | 1.2.0 | 21 | Current stable |
+| 4.7.0 | 4.6.0 | 7.3.0 | 1.3.0 | 21 | Newer versions |
+| 4.5.0 | 4.4.0 | 7.1.0 | 1.1.0 | 17 | Older versions |
+
+**Important Notes:**
+- **Java Version**: APIM 4.6.0+ requires Java 21 (pre-configured in Dockerfile)
+- **IS Console**: Version 7.2.0+ uses new console UI (different from 6.x)
+- **MI Integration**: MI version should be compatible with APIM version
+- **ICP Version**: Must match MI version for proper integration
 
 ## Cleanup Operations
 

@@ -176,6 +176,19 @@ demo-setup-2026/
 # Start all services
 ./start.sh
 
+# Start specific services
+./start.sh
+# Select: 2 5 8 (for wso2am, web-socket, bank-app)
+
+# Monitor container status
+./monitor-setup.sh
+
+# Continuous monitoring (watch mode)
+./monitor-setup.sh --watch
+
+# Check recent errors
+./monitor-setup.sh --logs
+
 # Stop all services
 ./stop.sh
 
@@ -207,6 +220,25 @@ docker exec -it wso2am bash
 # View container stats
 docker stats
 ```
+
+### Version Upgrades
+
+```bash
+# 1. Edit .env to update versions
+vi .env
+
+# 2. Stop services
+./stop.sh
+
+# 3. Rebuild without cache
+./start.sh
+# Choose option 2 "Build without cache"
+
+# 4. Monitor logs
+./monitor-setup.sh --watch
+```
+
+See [OPERATIONS.md](docs/OPERATIONS.md#update-procedures) for detailed upgrade procedures.
 
 ### Maintenance
 

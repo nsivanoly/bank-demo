@@ -601,22 +601,136 @@ docker compose -f infra/docker-compose.yml restart
 
 #### Update WSO2 Versions
 
+**Step 1: Edit `.env` file**
+
+Update the version numbers for the components you want to upgrade:
+
 ```bash
-# 1. Edit .env
+# Edit .env file
+vi .env
+# or
+nano .env
+```
+
+Update these variables:
+```env
 APIM_VERSION=4.7.0
-IS_VERSION=7.3.0
 MI_VERSION=4.6.0
+IS_VERSION=7.3.0
 ICP_VERSION=1.3.0
+```
 
-# 2. Stop services
+**Step 2: Stop running services**
+
+```bash
 ./stop.sh
+# Select 'a' for all services
+# Select option 1 (graceful stop)
+```
 
-# 3. Remove old images
-docker image rm wso2am wso2is wso2mi wso2icp
+**Step 3: Rebuild images without cache**
 
-# 4. Rebuild
+```bash
 ./start.sh
-# Choose "build without cache"
+# Select services to rebuild
+# Choose option 2 "Build without cache"
+```
+
+**Alternative: Manual rebuild**
+```bash
+docker compose -f infra/docker-compose.yml build --no-cache
+docker compose -f infra/docker-compose.yml up -d
+```
+
+**Step 4: Reconcile configurations**
+
+After version upgrades, you may need to update configurations:
+
+```bash
+# Download new distribution (optional)
+# Compare new default configs with your customizations
+
+# Check configuration files
+ls -la platform/wso2-am/am-conf/repository/conf/
+ls -la platform/wso2-is/is-conf/repository/conf/
+ls -la platform/wso2-mi/mi-conf/conf/
+
+# If deployment.toml has changed in new version:
+# 1. Compare new distribution's deployment.toml with yours
+# 2. Merge any required new settings
+# 3. Verify port offsets remain correct
+# 4. Update custom configurations if needed
+```
+
+**Step 5: Update MI artifacts (if applicable)**
+
+If Micro Integrator artifacts need updates:
+
+```bash
+# Check MySQL connector version compatibility
+# Edit platform/wso2-mi/Dockerfile if JDBC driver needs update
+
+# If data service schemas changed:
+# 1. Update .car files in platform/wso2-mi/mi-conf/repository/deployment/
+# 2. Rebuild MI service
+docker compose -f infra/docker-compose.yml build --no-cache wso2mi
+```
+
+**Step 6: Test thoroughly**
+
+```bash
+# Monitor logs during startup
+docker compose -f infra/docker-compose.yml logs -f
+
+# Verify service health
+./monitor-setup.sh
+
+# Test each upgraded service
+curl -k https://localhost:9443/services/Version
+curl -k https://localhost:9444/oauth2/token/.well-known/openid-configuration
+curl -k https://localhost:8253/management/health
+
+# Test APIs and applications
+curl http://localhost:3000
+curl http://localhost:2001/accounts
+```
+
+**Version Compatibility Notes:**
+
+| Component | Version | Requirements & Notes |
+|-----------|---------|---------------------|
+| **APIM** | 4.6.0+ | Requires Java 21 (pre-configured in Dockerfile) |
+| **IS** | 7.2.0+ | New console UI (different from 6.x), SCIM2 API changes |
+| **MI** | 4.5.0+ | Service catalog integrates with APIM 4.6.0 |
+| **ICP** | 1.2.0+ | Version must be passed via docker-compose build arg (already configured) |
+
+**Important Considerations:**
+
+- **Breaking Changes**: Review WSO2 release notes for breaking changes
+- **Database Migrations**: Some versions may require database schema updates
+- **API Compatibility**: Test existing APIs after APIM upgrades
+- **OAuth Flows**: Verify OAuth2/OIDC flows work after IS upgrades
+- **Integration**: Ensure MI artifacts are compatible with new MI version
+
+**Rollback Procedure:**
+
+If upgrade fails:
+
+```bash
+# Stop services
+./stop.sh
+# Select option 2 (stop and remove volumes) to clean state
+
+# Revert .env to previous versions
+vi .env
+
+# Rebuild with previous versions
+./start.sh
+# Choose option 2 "Build without cache"
+
+# Restore data from backup if needed
+docker run --rm -v wso2_am_data:/data -v $(pwd):/backup alpine \
+  tar xzf /backup/wso2_am_data_backup.tar.gz -C /
 ```
 
 #### Update Application Code
