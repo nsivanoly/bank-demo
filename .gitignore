@@ -107,3 +107,4 @@ apps/bank-app/package-lock.json
 *.log
 *.pid
 
+apps/php-app/src/setup-app.marker
