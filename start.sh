@@ -159,9 +159,9 @@ echo "🧹 Choose cleanup option before starting:"
 echo "  1) Clean start (stop and remove all existing containers, volumes)"
 echo "  2) Keep existing (start alongside running containers)"
 echo "  3) Exit"
-read -p "➡️ Enter choice [1-3] (default 1): " cleanup_choice
+read -p "➡️ Enter choice [1-3] (default 2): " cleanup_choice
 
-cleanup_choice=${cleanup_choice:-1}
+cleanup_choice=${cleanup_choice:-2}
 
 echo ""
 echo "📋 ========= Summary ========="
