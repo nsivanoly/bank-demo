@@ -30,11 +30,11 @@ export async function apiRequest(
     if (token) headers["Authorization"] = `Bearer ${token}`;
   }
 
-  const sanitizedHeaders: Record<string, string> = { ...headers };
-  if (sanitizedHeaders.Authorization) {
-    const token = sanitizedHeaders.Authorization.replace(/^Bearer\s+/i, "");
-    sanitizedHeaders.Authorization = `Bearer ${token.slice(0, 12)}...`;
-  }
+  // const sanitizedHeaders: Record<string, string> = { ...headers };
+  // if (sanitizedHeaders.Authorization) {
+  //   const token = sanitizedHeaders.Authorization.replace(/^Bearer\s+/i, "");
+  //   sanitizedHeaders.Authorization = `Bearer ${token.slice(0, 12)}...`;
+  // }
 
   const options: RequestInit = {
     method,
@@ -45,7 +45,7 @@ export async function apiRequest(
   const traceId = trafficTracer.startHttp({
     method,
     url,
-    requestHeaders: sanitizedHeaders,
+    requestHeaders: { ...headers },
     requestBody: data && method !== "GET" ? data : undefined,
   });
 

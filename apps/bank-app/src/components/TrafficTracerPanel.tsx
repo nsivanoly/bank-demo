@@ -26,7 +26,7 @@ const renderHttpEntry = (entry: HttpLogEntry) => {
       <div className="tracer-card-header">
         <div className="tracer-title">
           <span className="tracer-method">{method}</span>
-          <code className="tracer-code" style={{ maxHeight: 30, padding: "2px 4px", fontSize: "0.9em", lineHeight: "1.2" }}>{url}</code>
+          <code className="tracer-code" style={{ maxHeight: 47, padding: "2px 4px", fontSize: "0.9em", lineHeight: "1.2" }}>{url}</code>
         </div>
         <div className="tracer-meta">
           <span className="tracer-time">{formatTime(entry.timestamp)}</span>

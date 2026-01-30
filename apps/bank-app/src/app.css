@@ -978,7 +978,7 @@ h2 {
 .tracer-card-header {
     display: flex;
     justify-content: space-between;
-    gap: 12px;
+    gap: 6px;
 }
 
 .tracer-title {
@@ -1060,6 +1060,9 @@ h2 {
     font-size: 11px;
     max-height: 160px;
     overflow: auto;
+    word-break: break-all;
+    white-space: pre-wrap;
+    border: 1px solid goldenrod;
 }
 
 .tracer-code-error {
