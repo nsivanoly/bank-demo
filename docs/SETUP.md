@@ -61,7 +61,7 @@ netstat -an | grep 9443
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd demo-setup-2026
+cd bank-demo
 ```
 
 ### 2. Verify Prerequisites
@@ -346,7 +346,7 @@ docker compose -f infra/docker-compose.yml down -v
 ```bash
 # Verify you're in project root
 pwd
-# Should end in: demo-setup-2026
+# Should end in: bank-demo
 
 # Check if .env.sample exists
 ls -la .env.sample

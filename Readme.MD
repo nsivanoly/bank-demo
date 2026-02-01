@@ -44,7 +44,7 @@ WSO2 DevStack is a fully containerized development and demo environment that sho
 ```bash
 # Clone the repository
 git clone https://github.com/nsivanoly/bank-demo.git
-cd demo-setup-2026
+cd bank-demo
 
 # Start all services (interactive mode)
 ./start.sh
@@ -142,7 +142,7 @@ See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed diagrams and component 
 ## 🛠️ Project Structure
 
 ```
-demo-setup-2026/
+bank-demo/
 ├── apps/                    # Frontend applications
 │   ├── bank-app/           # React + TypeScript SPA
 │   └── php-app/            # PHP 8 + Apache application
