@@ -143,27 +143,89 @@ See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed diagrams and component 
 
 ```
 bank-demo/
-├── apps/                    # Frontend applications
-│   ├── bank-app/           # React + TypeScript SPA
-│   └── php-app/            # PHP 8 + Apache application
-├── services/               # Backend microservices
-│   ├── bank-api/           # Express REST API with Swagger
-│   ├── graphql/            # Apollo GraphQL server
-│   └── web-socket/         # WebSocket service
-├── platform/               # WSO2 products
-│   ├── wso2-am/            # API Manager configuration
-│   ├── wso2-is/            # Identity Server configuration
-│   ├── wso2-mi/            # Micro Integrator configuration
-│   └── wso2-icp/           # Integration Control Plane
-├── infra/                  # Infrastructure
-│   ├── docker-compose.yml  # Service orchestration
-│   └── certs/              # TLS certificates
-├── docs/                   # Additional documentation
-├── .env                    # Environment configuration (create from .env.sample)
-├── .env.sample             # Environment template
-├── start.sh                # Start script
-├── stop.sh                 # Stop script
-└── docker-clean-up.sh      # Cleanup script
+├── 📁 apps/                        # Frontend applications
+│   ├── 📁 bank-app/                # React + TypeScript SPA
+│   │   ├── 📁 src/
+│   │   │   ├── 📁 components/      # React components
+│   │   │   ├── 📁 pages/           # Page components  
+│   │   │   ├── 📁 services/        # API clients
+│   │   │   ├── 📁 types/           # TypeScript types
+│   │   │   ├── ⚛️ app.tsx          # Main app entry
+│   │   │   └── 🎨 app.css          # Styles
+│   │   ├── 🐳 Dockerfile
+│   │   ├── 📦 package.json
+│   │   ├── ⚙️ webpack.config.js
+│   │   └── 📝 tsconfig.json
+│   │
+│   └── 📁 php-app/                 # PHP 8 + Apache application
+│       ├── 📁 src/
+│       │   ├── 🐘 index.php        # Main page
+│       │   ├── 🐘 login.php        # Login handler
+│       │   ├── 🐘 callback.php     # OAuth callback
+│       │   └── 🐘 logout.php       # Logout handler
+│       ├── 🐳 Dockerfile
+│       └── 🐳 docker-compose.yml
+│
+├── 📁 services/                    # Backend microservices
+│   ├── 📁 bank-api/                # Express REST API with Swagger
+│   │   ├── 📁 src/
+│   │   │   ├── 📁 Routes/          # API routes
+│   │   │   └── 📁 Data/            # Mock data
+│   │   ├── 📄 index.js
+│   │   ├── 📦 package.json
+│   │   └── 🐳 Dockerfile
+│   │
+│   ├── 📁 graphql/                 # Apollo GraphQL server
+│   │   ├── 📁 data/
+│   │   │   └── 📄 schema.js        # GraphQL schema
+│   │   ├── 📄 server.js
+│   │   ├── 📦 package.json
+│   │   └── 🐳 Dockerfile
+│   │
+│   └── 📁 web-socket/              # WebSocket service
+│       ├── 📄 index.js
+│       ├── 📦 package.json
+│       ├── 🩺 healthcheck.sh
+│       └── 🐳 Dockerfile
+│
+├── 📁 platform/                    # WSO2 products
+│   ├── 📁 wso2-am/                 # API Manager
+│   │   ├── 📁 am-conf/             # Configuration files
+│   │   ├── 📁 am-data/             # API definitions
+│   │   ├── 📁 container-init/      # Setup scripts
+│   │   └── 🐳 Dockerfile
+│   │
+│   ├── 📁 wso2-is/                 # Identity Server
+│   │   ├── 📁 is-conf/             # Configuration files
+│   │   ├── 📁 container-init/      # User setup scripts
+│   │   └── 🐳 Dockerfile
+│   │
+│   ├── 📁 wso2-mi/                 # Micro Integrator
+│   │   ├── 📁 mi-conf/             # Configuration files
+│   │   └── 🐳 Dockerfile
+│   │
+│   └── 📁 wso2-icp/                # Integration Control Plane
+│       └── 🐳 Dockerfile
+│
+├── 📁 infra/                       # Infrastructure
+│   ├── 🐳 docker-compose.yml       # Service orchestration
+│   └── 📁 certs/                   # TLS certificates
+│
+├── 📁 docs/                        # Documentation
+│   ├── 📚 PROJECT_OVERVIEW.md      # Project introduction
+│   ├── 🏗️ ARCHITECTURE.md          # System architecture
+│   ├── ⚙️ CONFIGURATION.md         # Environment variables
+│   ├── 🚀 SETUP.md                 # Installation guide
+│   ├── 🐳 DEPLOYMENT.md            # Docker orchestration
+│   ├── 🔧 OPERATIONS.md            # Monitoring & maintenance
+│   └── 🔐 SECURITY.md              # Security best practices
+│
+├── 🚀 start.sh                     # Start script
+├── 🛑 stop.sh                      # Stop script
+├── 📊 monitor-setup.sh             # Monitoring script
+├── 🧹 docker-clean-up.sh           # Cleanup script
+├── 📋 .env.sample                  # Environment template
+└── 📖 Readme.MD                    # This file
 ```
 
 ---
